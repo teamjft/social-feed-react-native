@@ -1,8 +1,16 @@
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, BackAndroid, BackHandler} from 'react-native'
 
 export default class ComingSoon extends React.Component {
+
+
+    componentDidMount(){
+        BackHandler.addEventListener('hardwareBackPress',function(){
+        BackHandler.exitApp();
+        return true;
+       });
+       }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Coming Soon',

@@ -6,6 +6,8 @@ import WebViewScreen from './WebViewScreen'
 import StarRating from 'react-native-star-rating'
 import TwitterList from './TwitterList'
 import Moment from 'moment';
+import connect from '../utility/connect';
+
 
 const SecondRoute = () => <TwitterList/>;
 
@@ -30,7 +32,8 @@ export default class SecondScreen extends PureComponent<{}, State> {
     }
 
     componentWillMount() {
-        this.getBooks(function (json) {
+        con=new connect();
+        con.state.getBooks(function (json) {
             this.createArray(json);
         }.bind(this));
     }
@@ -76,17 +79,7 @@ export default class SecondScreen extends PureComponent<{}, State> {
     };
 
     scrollTo = (...args: any) => this._root && this._root.scrollTo(...args);
-
-    getBooks(callback) {
-        let url = "https://mcnam.ee/api/index.php?type=goodreads";
-        fetch(url)
-            .then(response => {
-                return response.json()
-            })
-            .then(json => callback(json))
-            .catch(error => console.warn("error", error));
-    }
-
+    
     _renderScene = SceneMap({
         '1': () => <ListView
             {...this.props}
@@ -168,7 +161,8 @@ export default class SecondScreen extends PureComponent<{}, State> {
         this.setState({
             isRefreshing: true,
         }, () => {
-            this.getBooks(function (json) {
+            con=new connect();
+            con.state.getBooks(function (json) {
                 this.createArray(json);
             }.bind(this));
         })

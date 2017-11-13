@@ -5,6 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment'
 import _ from 'lodash'
+import connect from '../utility/connect';
 
 
 let tweetArray = [];
@@ -31,7 +32,8 @@ export default class BooksList extends PureComponent<> {
 
 
     componentWillMount() {
-        this.getTweets(function (json) {
+        con=new connect();
+        con.state.getTweets(function (json) {
             this.createArray(json);
         }.bind(this));
     }
@@ -88,16 +90,6 @@ export default class BooksList extends PureComponent<> {
             dataMap[dataKey] = existingData;
         }
     };
-
-    getTweets(callback) {
-        let url = "https://mcnam.ee/api/index.php?type=twitter";
-        fetch(url)
-            .then(response => {
-                return response.json()
-            })
-            .then(json => callback(json))
-            .catch(error => console.warn("error", error));
-    }
 
     static navigationOptions = ({navigation}) => ({
         tabBarLabel:'Twitter',
@@ -177,7 +169,8 @@ export default class BooksList extends PureComponent<> {
         this.setState({
             isRefreshing: true,
         }, () => {
-            this.getTweets(function (json) {
+            con=new connect();
+            con.state.getTweets(function (json) {
                 this.createArray(json);
             }.bind(this));
         })
